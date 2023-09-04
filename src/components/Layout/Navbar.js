@@ -1,8 +1,11 @@
-import { Layout, Menu, Button } from "antd";
+import { Layout, Menu, Button, Image } from "antd";
 const { Header } = Layout;
 import Link from "next/link";
+import { useSession, signOut } from "next-auth/react";
 
 const Navbar = () => {
+  const { data: session } = useSession();
+  console.log("from header", session);
   return (
     <Header
       style={{
@@ -32,20 +35,37 @@ const Navbar = () => {
           justifyContent: "space-between",
         }}
       >
-        <Link
-          style={{ textDecoration: "none", color: "white" }}
-          href="/profile"
-        >
-          <items>Profile</items>
-        </Link>
-        <Link style={{ textDecoration: "none", color: "white" }} href="/login">
-          <items>Login</items>
-        </Link>
-        <items>
-          <Button type="primary" danger>
-            Logout
-          </Button>
-        </items>
+        {session?.user ? (
+          <>
+            <Link
+              style={{ textDecoration: "none", color: "white" }}
+              href="/profile"
+            >
+              <items>Profile</items>
+            </Link>
+            <items>
+              <Button onClick={() => signOut()} type="primary" danger>
+                Logout
+              </Button>
+            </items>
+            <items>
+              <Image
+                width={45}
+                height={45}
+                style={{ borderRadius: "100%" }}
+                src={session?.user?.image}
+                alt={session?.user?.name}
+              />
+            </items>
+          </>
+        ) : (
+          <Link
+            style={{ textDecoration: "none", color: "white" }}
+            href="/login"
+          >
+            <items>Login</items>
+          </Link>
+        )}
       </Menu>
     </Header>
   );
