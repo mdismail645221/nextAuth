@@ -5,7 +5,7 @@ import { useSession, signOut } from "next-auth/react";
 
 const Navbar = () => {
   const { data: session } = useSession();
-  console.log("from header", session);
+  console.log("from headerrrrr", { session });
   return (
     <Header
       style={{
@@ -37,7 +37,7 @@ const Navbar = () => {
       >
         {session?.user ? (
           <>
-            <Link
+           <Link
               style={{ textDecoration: "none", color: "white" }}
               href="/profile"
             >
@@ -59,12 +59,20 @@ const Navbar = () => {
             </items>
           </>
         ) : (
-          <Link
-            style={{ textDecoration: "none", color: "white" }}
-            href="/login"
-          >
-            <items>Login</items>
-          </Link>
+          <>
+            <Link
+              style={{ textDecoration: "none", color: "white" }}
+              href="/profile"
+            >
+              <items>Profile</items>
+            </Link>
+            <Link
+              style={{ textDecoration: "none", color: "white" }}
+              href="/login"
+            >
+              <items>Login</items>
+            </Link>
+          </>
         )}
       </Menu>
     </Header>
